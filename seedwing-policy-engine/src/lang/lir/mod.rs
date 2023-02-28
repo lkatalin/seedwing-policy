@@ -21,6 +21,8 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
+use log::info;
+
 #[cfg(feature = "monitor")]
 use crate::runtime::monitor::Monitor;
 #[cfg(feature = "monitor")]
@@ -415,6 +417,7 @@ impl Type {
                     }
                 })),
                 PrimordialType::Function(_sugar, _name, func) => trace.run(Box::pin(async move {
+                    //info!("calling func with value {:?}, ctx {:?}, bindings {:?}, world {:?}", value.clone(), ctx, bindings, world);
                     let result = func.call(value.clone(), ctx, bindings, world).await?;
                     Ok(EvaluationResult::new(
                         value.clone(),

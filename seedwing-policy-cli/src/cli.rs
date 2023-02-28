@@ -12,6 +12,8 @@ use std::process::exit;
 use tokio::fs;
 use tokio::time::Instant;
 
+use log::info;
+
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum, Debug)]
 pub enum InputType {
     Json,
@@ -76,6 +78,7 @@ impl Cli {
                 let world = verify.run().await.map_err(|_| ())?;
 
                 let value = load_value(*typ, input.clone()).await.map_err(|_| ())?;
+                info!("value is {:?}", value);
 
                 let eval = Eval::new(world, name.clone(), value);
 

@@ -35,9 +35,19 @@ pub async fn evaluate(
     accept: web::Header<header::Accept>,
     mut body: Payload,
 ) -> HttpResponse {
+    log::info!("\n\nin EVALUATE!\n\n");
+    //log::info!("body is {:?}", body);
+
     match &parse(&mut body).await {
         Ok(result) => {
+
+            log::info!("result is {:?}", result);
+
             let value = RuntimeValue::from(result);
+
+            // todo: this is already not right
+            log::info!("\n\nvalue is {:?}\n\n", value);
+
             let path = path.replace('/', "::");
             let trace = TraceConfig::Enabled(monitor.into_inner());
             match world.evaluate(&*path, value, EvalContext::new(trace)).await {

@@ -28,7 +28,9 @@ use seedwing_policy_engine::runtime::sources::Directory;
 use seedwing_policy_engine::runtime::statistics::monitor::Statistics;
 
 use crate::cli::Cli;
-use crate::policy::{display_component, display_root, display_root_no_slash, evaluate};
+use crate::policy::{display_component, display_root, display_root_no_slash, evaluate}; // eval
+                                                                                       // defined
+                                                                                       // here
 use crate::ui::{documentation, examples, index};
 
 include!(concat!(env!("OUT_DIR"), "/generated-ROOT.rs"));
@@ -149,7 +151,7 @@ async fn main() -> std::io::Result<()> {
                     .service(display_root_no_slash)
                     .service(display_root)
                     .service(display_component)
-                    .service(evaluate)
+                    .service(evaluate) // it's this one
                     .service(documentation)
                     .service(examples)
                     .service(playground::display)

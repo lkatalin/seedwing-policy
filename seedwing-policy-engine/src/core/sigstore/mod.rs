@@ -18,6 +18,8 @@ use std::pin::Pin;
 
 use std::sync::Arc;
 
+use log::info;
+
 pub fn package() -> Package {
     let mut pkg = Package::new(PackagePath::from_parts(vec!["sigstore"]));
     pkg.register_function("sha256".into(), SHA256);
@@ -54,6 +56,9 @@ impl Function for SHA256 {
                     public_key: None,
                     hash: Some(digest),
                 };
+
+                info!("{:?}", query);
+
                 let uuid_vec = index_api::search_index(&configuration, query).await;
                 if let Ok(uuid_vec) = uuid_vec {
                     let handles = uuid_vec.iter().map(|uuid| {
